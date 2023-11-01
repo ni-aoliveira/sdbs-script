@@ -1,0 +1,41 @@
+#!/bin/bash
+set -eo pipefail
+
+ENV=$1
+ACTION=$2
+PROCESS=$3
+
+supervisor_action_non_prod() {
+    echo -e "\033[92mHOST => sdbs-$ENV$i\033[0m"; \
+    ssh sdbs-$ENV$i.ext.native-instruments.de \
+    sudo -iu sdbs deployment/bin/sv $ACTION $PROCESS; \
+    sleep 2; \
+    echo " ";
+}
+
+supervisor_action_prod() {
+    echo -e "\033[92mHOST => sdbs$i\033[0m"; \
+    ssh sdbs$i.ext.native-instruments.de \
+    sudo -iu sdbs deployment/bin/sv $ACTION $PROCESS; \
+    sleep 2; \
+    echo " ";
+}
+
+if [ $ENV == 'test' ]; then
+    for i in $(seq 11 13)
+    do
+        supervisor_action_non_prod
+    done
+elif [ $ENV == 'stage' ] ; then
+    for i in $(seq 11 14)
+    do
+        supervisor_action_non_prod
+    done
+elif [ $ENV == 'prod' ] ; then
+    for i in $(seq 11 19)
+    do
+        supervisor_action_prod
+    done
+else
+    echo -e "Enviroment not found. Try test, stage, or prod"
+fi
