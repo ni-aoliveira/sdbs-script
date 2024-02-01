@@ -1,7 +1,7 @@
 # sdbs-script - SDBS status/restart process script
 
 ## Requirements:
-You will need ssh access to all SDBS servers. If you don't have it, ask hosting team to add your ssh key.
+You will need SSH access to all SDBS servers. If you don't have it, ask the hosting team to add your ssh key.
 
 ## Installation
 * Just place the script under: `/usr/local/bin/`
@@ -10,23 +10,30 @@ You will need ssh access to all SDBS servers. If you don't have it, ask hosting 
 ## Examples of commands:
 * Show the status of all processes on SDBS
 ```bash
-sdbs test status
+sdbs stg status
+```
+* Show the status of a specific process
+```
+sdbs stg status sdbs-appserver-8095
 ```
 * To restart all SDBS processes
 ```bash
-sdbs test restart all
+sdbs stg restart all
 ```
 * Restart a specific process
 ```bash
-sdbs test restart vfc
+sdbs stg restart vfc:
+```
+```
+sdbs stg restart sdbs-appserver-8095
 ```
 ## Commad skeleton:
 ```bash
 sdbs <enviroment> <action> <process>
 ```
-## List of enviroments accepted:
-* test
-* stage
+## List of environments accepted:
+* dev (aka test)
+* stg
 * prod
 ## List of actions accepted:
 * restart
@@ -34,6 +41,7 @@ sdbs <enviroment> <action> <process>
 * start
 * status
 ## List of SDBS processes:
+* collectd
 * masterdata                       
 * sdbs-appserver-8091              
 * sdbs-appserver-8091_http         
@@ -47,6 +55,6 @@ sdbs <enviroment> <action> <process>
 * sdbs-appserver-8095              
 * sdbs-appserver-8095_http         
 * sdbs-appserver-8095_mem          
-* vfc                              
-* vfc-2                            
-* vfc-3
+* vfc:0                            
+* vfc:1                           
+* vfc:2
