@@ -3,28 +3,20 @@ set -eo pipefail
 
 ENV=$1
 ACTION=$2
-PROCESS={$3:all}
+PROCESS=$3
 
 supervisor_action_non_prod() {
     echo -e "\033[92mHOST => sdbs-gcp-$i-$ENV\033[0m"; \
-    if [ "$ACTION" == "status" ]; then
-      ssh sdbs-gcp-$i.$ENV.nas.native-cloud.com \
-      sudo -iu sdbs deployment/bin/sv $ACTION; \
-    else
-      sudo -ui sdbs deployment/bin/sv/ $ACTION $PROCESS; \
-    fi
+    ssh sdbs-gcp-$i.$ENV.nas.native-cloud.com \
+    sudo -iu sdbs deployment/bin/sv $ACTION $PROCESS; \
     sleep 2; \
     echo " ";
 }
 
 supervisor_action_prod() {
     echo -e "\033[92mHOST => sdbs-gcp-$i-$ENV\033[0m"; \
-    if [ "$ACTION" == "status" ]; then
-      ssh sdbs-gcp-$i.nas.native-cloud.com \
-      sudo -iu sdbs deployment/bin/sv $ACTION; \
-    else
-      sudo -ui sdbs deployment/bin/sv/ $ACTION $PROCESS; \
-    fi
+    ssh sdbs-gcp-$i.nas.native-cloud.com \
+    sudo -iu sdbs deployment/bin/sv $ACTION $PROCESS; \
     sleep 2; \
     echo " ";
 }
